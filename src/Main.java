@@ -10,6 +10,5 @@ public class Main{
             menu.setLocationRelativeTo(null);
             menu.setVisible(true);
             menu.setResizable(false);
-
     };
 }

@@ -5,19 +5,20 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
 public class Menu extends JPanel {
     private Image backgroundImage;
-    private JFrame frame;
+
     public Menu() {
         try {
-            backgroundImage = ImageIO.read(new File("C:/Users/Stolaro/Desktop/background.png"));
+            backgroundImage = ImageIO.read(new File("img/background.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         setLocation(200,300);
         this.setLayout(null);
         Font  f1  = new Font(Font.SANS_SERIF, Font.BOLD,  45);
-    /// Przyciski odpowiedzialne za GRAJ
+    // Przyciski odpowiedzialne za GRAJ
         JButton playButton = new JButton("Graj");
         add(playButton);
         playButton.setForeground(Color.black);
@@ -25,7 +26,7 @@ public class Menu extends JPanel {
         playButton.setContentAreaFilled(false);
         playButton.setBorderPainted(false);
         playButton.setFont(f1);
-        playButton.setBounds(474, 190, 320, 140);
+        playButton.setBounds(460, 210, 320, 140);
         playButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -43,10 +44,9 @@ public class Menu extends JPanel {
         });
 /// Przyciski odpowiedzialne za WYJŚCIE
         JButton exitButton = new JButton("Wyjście");
-        exitButton.setBounds(474, 385, 320, 140);
+        exitButton.setBounds(455, 410, 320, 140);
         add(exitButton);
         exitButton.setFont(f1);
-        exitButton.setForeground(Color.black);
         exitButton.setContentAreaFilled(false);
         exitButton.setBorderPainted(false);
         exitButton.setFocusable(false);
