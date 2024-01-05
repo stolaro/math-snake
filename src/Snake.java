@@ -2,6 +2,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>
+ *     Klasa odpowiadająca za logike węża
+ * </p>
+ *
+ */
+
 public class Snake {
     private List<Point> body= new ArrayList<>();
     private char direction;
@@ -10,8 +17,8 @@ public class Snake {
 
     public Snake() {
 
-        body.add(new Point(300, 300));
-        direction = 'R';
+        body.add(new Point(300, 300)); //wspolzedne startu gry
+        direction = 'R'; //domyslny ruch weza w prawo
         grow = false;
     }
 
@@ -19,10 +26,12 @@ public class Snake {
         return body;
     }
 
+    //odczytanie kierunku
     public char getDirection() {
         return direction;
     }
 
+    //ustalenie nowego kierunku
     public void setDirection(char newDirection) {
         if ((newDirection == 'U' && direction != 'D') ||
                 (newDirection == 'D' && direction != 'U') ||
@@ -32,6 +41,7 @@ public class Snake {
         }
     }
 
+    //ruch weza
     public void move() {
         if(gamerun) {
             Point head = body.get(0);
@@ -61,15 +71,18 @@ public class Snake {
             }
         }
     }
+
+    //czy ma wzrosnac liczba segmentow
     public void grow() {
         grow = true;
     }
 
+    //sprawdzenie kolizji z prawidlowym owocem
     public boolean checkCollisionWithFruit(Point fruit) {
-
         Point head = body.get(0);
         return head.equals(fruit);
     }
+    //sprawdzenie kolizji ze zlym wocowem
     public boolean checkCollisionWithWrongFruits(List<Point> wrongFruits) {
         Point head = body.get(0);
         for (Point wrongFruit : wrongFruits) {
@@ -80,15 +93,15 @@ public class Snake {
         return false;
     }
 
+    //sprawdzenie kolizji
     public boolean checkCollision() {
         Point head = body.get(0);
 
-        // Check collision with walls
+       //kolizja ze sciana
         if (head.x < 0 || head.x >= 1260 || head.y < 90 || head.y >= 670) {
             return true;
         }
-
-        // Check collision with body
+        //kolizja z samym soba
         for (int i = 1; i < body.size(); i++) {
             if (head.equals(body.get(i))) {
                 return true;
