@@ -113,7 +113,8 @@ public class board extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        Timer snakeTimer = new Timer(180, new ActionListener() {
+        int speed=125; //predkosc weza
+        Timer snakeTimer = new Timer(speed, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(snake.gamerun) {
@@ -204,7 +205,7 @@ public class board extends JPanel {
             g.fillRect(bodyPart.x, bodyPart.y, 30, 30);
         }
         // Rysowanie owocu
-        g.setColor(Color.RED);
+        g.setColor(Color.yellow);
         g.fillRect(fruit.x, fruit.y, 30, 30);
         g.setColor(Color.BLACK);
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
@@ -222,7 +223,7 @@ public class board extends JPanel {
         Point wrongFruit3 = wrongFruits.get(2);
 
         //1 bledny owoc
-        g.setColor(Color.RED);
+        g.setColor(Color.yellow);
         g.fillRect(wrongFruit1.x, wrongFruit1.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString2 = String.valueOf(wrongResult1);
@@ -232,7 +233,7 @@ public class board extends JPanel {
         int centerY2 = wrongFruit1.y + (30 + stringHeight2) / 2;
         g.drawString(wrongResultString2, centerX2, centerY2);
         //2 bledny owoc
-        g.setColor(Color.RED);
+        g.setColor(Color.yellow);
         g.fillRect(wrongFruit2.x, wrongFruit2.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString3 = String.valueOf(wrongResult2);
@@ -242,7 +243,7 @@ public class board extends JPanel {
         int centerY3 = wrongFruit2.y + (30 + stringHeight3) / 2;
         g.drawString(wrongResultString3, centerX3, centerY3);
         //3 bledny owoc
-        g.setColor(Color.RED);
+        g.setColor(Color.yellow);
         g.fillRect(wrongFruit3.x, wrongFruit3.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString4 = String.valueOf(wrongResult3);
@@ -287,8 +288,8 @@ public class board extends JPanel {
     //wyswietlanie konca gry
     private void gameover() {
         snake.gamerun=false;
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        JDialog dialog = new JDialog(parentFrame, "Koniec gry", true);
+        JFrame frame2 = (JFrame) SwingUtilities.getWindowAncestor(this);
+        JDialog dialog = new JDialog(frame2, "Koniec gry", true);
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Koniec gry!");
         JLabel score = new JLabel("Wynik:"+points);
@@ -296,7 +297,6 @@ public class board extends JPanel {
         timeOverExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Dodaj kod obsługi dla własnego przycisku
                 makemenuframe();
             }
         });
@@ -305,7 +305,7 @@ public class board extends JPanel {
         panel.add(timeOverExit);
         dialog.add(panel);
         dialog.setSize(200, 100);
-        dialog.setLocationRelativeTo(parentFrame);
+        dialog.setLocationRelativeTo(frame2);
         dialog.setVisible(true);
         dialog.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
     }
@@ -326,8 +326,9 @@ public class board extends JPanel {
         exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                makemenuframe();
+                snake.gamerun=false;
                 timer.stop();
+                makemenuframe();
             }
         });
     }
