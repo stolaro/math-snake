@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
  */
 public class Menu extends JPanel {
     private Image backgroundImage;
-
     public Menu() {
         try {
             backgroundImage = ImageIO.read(new File("img/background.png"));
