@@ -12,10 +12,7 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * <p>
- *     Klasa odpowiadająca za wyświetlanie elementów planszy
- * </p>
- *
+ Klasa odpowiadająca za wyświetlanie elementów planszy
  */
 public class board extends JPanel {
     private Image boardimage;
@@ -23,18 +20,36 @@ public class board extends JPanel {
     public Snake snake;
     private Point fruit;
     private List<Point> wrongFruits = new ArrayList<>();
-    private int countdown = 60; //licznik czasu
+    /**
+     * czas rozgrywki
+     */
+    private int countdown = 60;
     final JLabel timeLabel;
     final JLabel pointsLabel;
     private int points=0; //liczba punktow
+    /**
+        Liczba 1
+     */
     public int op1; //liczba 1
+    /**
+     Liczba 2
+     */
     public int op2; //liczba 2
+    /**
+     działanie +/-
+     */
     private char operator; //działanie +/-
+    /**
+     zly wynik dzialania 1 owoca
+     */
     private int wrongResult1=0; //zly wynik dzialania 1 owoca
     private int wrongResult2=0; //zly wynik dzialania 2 owoca
     private int wrongResult3=0;//zly wynik dzialania 3 owoca
     private String equation; //dzialanie
     final JLabel equLabel;
+    /**
+     poprawny wynik dzialania
+     */
     private int goodresult=0; //poprawny wynik dzialania
     Font  f2  = new Font(Font.SANS_SERIF, Font.BOLD,  25);
     public board(){
@@ -53,9 +68,9 @@ public class board extends JPanel {
                 countdown--;
                 if (countdown <= 0) {
                     timer.stop();
-                    gameover();
+                    gameOver();
                 }
-                updatetime();
+                updateTime();
             }
         });
         Timer startTimer = new Timer(100, new ActionListener() {
@@ -72,7 +87,7 @@ public class board extends JPanel {
         timeLabel.setBounds(680, 5, 155, 65);
         timeLabel.setFont(f2);
         add(timeLabel);
-        exitbuttonmenu();
+        exitButtonMenu();
         snake = new Snake(); //tworzenie klasy snake
 
         //generowanie owocow
@@ -81,7 +96,7 @@ public class board extends JPanel {
         spawnWrongFruit();
         spawnWrongFruit();
         //wyswietlanie dzialania
-        pointsLabel = new JLabel("Wynik: " + points + "s");
+        pointsLabel = new JLabel("Wynik: " + points);
         pointsLabel.setBounds(370, 5, 155, 65);
         pointsLabel.setFont(f2);
         add(pointsLabel);
@@ -127,7 +142,9 @@ public class board extends JPanel {
         snakeTimer.start();
     }
 
-    //metoda opowiadajaca za ruch weza i rozgrywke (generowanie owocow,dodawanie punktow itp)
+    /**
+     metoda opowiadajaca za ruch weza i rozgrywke (generowanie owocow,dodawanie punktow itp)
+     */
     private void moveSnake() {
         snake.move();
         if (snake.checkCollisionWithFruit(fruit)) {
@@ -143,10 +160,12 @@ public class board extends JPanel {
         }else if(snake.checkCollisionWithWrongFruits(wrongFruits)){
             //gdy jest kolizja ze zlym owocem koniec gry
             timer.stop();
-            gameover();
+            gameOver();
         }
     }
-    //metoda odpowiadajaca za generowanie owocow
+    /**
+      generowanie  prawidlowego owocu
+     */
     private void spawnFruit() {
         Random random = new Random();
         op1 = random.nextInt(15) + 1; // Zakres od 1 do 30
@@ -158,7 +177,9 @@ public class board extends JPanel {
         equation = op1 + " " + operator + " " + op2+ "= ?" ;
         fruit = new Point(x, y);
     }
-    //metoda odpowiadajaca za generowanie owocu z niepoprawnym wynikiem
+    /**
+     generowanie owocu z nieprawidlowym wynikiem
+     */
     private void spawnWrongFruit() {
         Random random = new Random();
         int x = random.nextInt(40) * 30;
@@ -172,14 +193,18 @@ public class board extends JPanel {
         } while (wrongResult1 == wrongResult2 || wrongResult2 == wrongResult3 || wrongResult3 == wrongResult1 || goodresult == wrongResult1 || goodresult == wrongResult2 || goodresult == wrongResult3);
     }
 
-    //losowanie typu dzialania
+    /**
+     losowanie rodzaju dzialania
+     */
     private char randomOperator() {
         Random random = new Random();
         char[] operators = {'+', '-'};
         return operators[random.nextInt(operators.length)];
     }
 
-    //rozwiazywanie dzialania
+    /**
+     rozwiazywanie dzialania
+     */
     private int resultEquation(int op1, int op2, char operator) {
         if(operator=='+'){
             return op1+op2;
@@ -187,25 +212,30 @@ public class board extends JPanel {
             return op1-op2;
         }
     }
-    //sprawdzanie kolizji
+    /**
+     sprawdzanie kolizji
+     */
     private void checkCollision() {
         if (snake.checkCollision()) {
             timer.stop();
-            gameover();
+            gameOver();
         }
     }
-    //rysowanie elementow planszy
+    /**
+     rysowanie elementow planszy
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Color snakeColor = new Color(0, 0, 139);
         if (boardimage != null) {
             g.drawImage(boardimage, 0, 0, getWidth(), getHeight(), this);
         }
-        g.setColor(Color.pink);
+        g.setColor(snakeColor);
         for (Point bodyPart : snake.getBody()) {
             g.fillRect(bodyPart.x, bodyPart.y, 30, 30);
         }
         // Rysowanie owocu
-        g.setColor(Color.yellow);
+        g.setColor(Color.pink);
         g.fillRect(fruit.x, fruit.y, 30, 30);
         g.setColor(Color.BLACK);
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
@@ -223,7 +253,7 @@ public class board extends JPanel {
         Point wrongFruit3 = wrongFruits.get(2);
 
         //1 bledny owoc
-        g.setColor(Color.yellow);
+        g.setColor(Color.pink);
         g.fillRect(wrongFruit1.x, wrongFruit1.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString2 = String.valueOf(wrongResult1);
@@ -233,7 +263,7 @@ public class board extends JPanel {
         int centerY2 = wrongFruit1.y + (30 + stringHeight2) / 2;
         g.drawString(wrongResultString2, centerX2, centerY2);
         //2 bledny owoc
-        g.setColor(Color.yellow);
+        g.setColor(Color.pink);
         g.fillRect(wrongFruit2.x, wrongFruit2.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString3 = String.valueOf(wrongResult2);
@@ -243,7 +273,7 @@ public class board extends JPanel {
         int centerY3 = wrongFruit2.y + (30 + stringHeight3) / 2;
         g.drawString(wrongResultString3, centerX3, centerY3);
         //3 bledny owoc
-        g.setColor(Color.yellow);
+        g.setColor(Color.pink);
         g.fillRect(wrongFruit3.x, wrongFruit3.y, 30, 30);
         g.setColor(Color.black);
         String wrongResultString4 = String.valueOf(wrongResult3);
@@ -253,26 +283,33 @@ public class board extends JPanel {
         int centerY4 = wrongFruit3.y + (30 + stringHeight4) / 2;
         g.drawString(wrongResultString4, centerX4, centerY4);
     }
-
-    //odswiezanie czasu
-    private void updatetime() {
+    /**
+     odswiezanie czasu
+     */
+    private void updateTime() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 timeLabel.setText("Czas: " + countdown + "s");
             }
         });
     }
-    //aktualizowanie punktacji
+    /**
+     aktualizowanie punktow
+     */
     private void updatePoints(){
         pointsLabel.setText("Wynik: " + points);
     }
-    //aktualizowanie punktacji
+    /**
+     aktualizowanie dzialania
+     */
     private void updateEquation() {
         equLabel.setText(equation);
     }
 
-    //powrot do menu gry po nacisnieciu przycisku
-    private void makemenuframe(){
+    /**
+     powrot do menu po nacisnieciu przyciski
+     */
+    private void makeMenuFrame(){
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(board.this);
         frame.dispose();
         JFrame menu = new JFrame("SnakeGame");
@@ -285,8 +322,10 @@ public class board extends JPanel {
         menu.setResizable(false);
     }
 
-    //wyswietlanie konca gry
-    private void gameover() {
+    /**
+     wyswietlanie konca gry
+     */
+    private void gameOver() {
         snake.gamerun=false;
         JFrame frame2 = (JFrame) SwingUtilities.getWindowAncestor(this);
         JDialog dialog = new JDialog(frame2, "Koniec gry", true);
@@ -297,7 +336,7 @@ public class board extends JPanel {
         timeOverExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                makemenuframe();
+                makeMenuFrame();
             }
         });
         panel.add(label);
@@ -310,8 +349,10 @@ public class board extends JPanel {
         dialog.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
     }
 
-    //przycisk pozwalajacy na wyjscie z gry w czasie rozgrywki
-    private void exitbuttonmenu(){
+    /**
+     wyjscie z gry w trakcie rozgrywki
+     */
+    private void exitButtonMenu(){
         JButton exitButton = new JButton("Wyjście");
         setComponentZOrder(exitButton, 1);
         exitButton.setBounds(1000, 5, 155, 65);
@@ -328,7 +369,7 @@ public class board extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 snake.gamerun=false;
                 timer.stop();
-                makemenuframe();
+                makeMenuFrame();
             }
         });
     }

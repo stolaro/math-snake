@@ -7,10 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * <p>
  *     Klasa odpowiadająca za wyświetlanie Menu gry
- * </p>
- *
  */
 public class Menu extends JPanel {
     private Image backgroundImage;
@@ -63,7 +60,6 @@ public class Menu extends JPanel {
             }
         });
     }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (backgroundImage != null) {
